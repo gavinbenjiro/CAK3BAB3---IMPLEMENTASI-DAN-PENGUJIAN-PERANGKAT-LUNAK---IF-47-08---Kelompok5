@@ -63,7 +63,3 @@ CAK3BAB3 – IMPLEMENTASI DAN PENGUJIAN PERANGKAT LUNAK – IF-47-08 – Kelompo
 
 ---
 
-### Rekomendasi
-- Pastikan setiap PR selalu terkait dengan Issue.  
-- Semua merge wajib melalui review Configuration Manager.  
-- Commit message harus lebih deskriptif. 
