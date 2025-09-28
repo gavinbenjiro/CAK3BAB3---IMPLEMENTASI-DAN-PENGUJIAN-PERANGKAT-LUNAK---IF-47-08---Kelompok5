@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hall of Fame - Cinema Classics</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Bungee&family=Fredoka+One&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(45deg, #8B0000, #DC143C);
+            color: #FFFFFF;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 140, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .film-grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300"><defs><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/></filter></defs><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.03"/></svg>');
+            pointer-events: none;
+            z-index: 1;
+            animation: grain 0.5s infinite;
+        }
+        
+        @keyframes grain {
+            0%, 100% { transform: translate(0, 0); }
+            10% { transform: translate(-1px, -1px); }
+            20% { transform: translate(1px, 1px); }
+            30% { transform: translate(-1px, 1px); }
+            40% { transform: translate(1px, -1px); }
+            50% { transform: translate(-1px, -1px); }
+            60% { transform: translate(1px, 1px); }
+            70% { transform: translate(-1px, 1px); }
+            80% { transform: translate(1px, -1px); }
+            90% { transform: translate(-1px, -1px); }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .title {
+            text-align: center;
+            font-family: 'Bungee', cursive;
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #FFFFFF;
+            text-shadow: 
+                3px 3px 0px #DC143C,
+                6px 6px 10px rgba(0,0,0,0.8),
+                0 0 30px rgba(255, 255, 255, 0.5);
+            letter-spacing: 3px;
+            position: relative;
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-family: 'Georgia', serif;
+            font-size: 1.4rem;
+            color: #FF8C00;
+            margin-bottom: 50px;
+            font-style: italic;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+        
+        .popcorn-decoration {
+            position: absolute;
+            font-size: 4rem;
+            animation: float 3s ease-in-out infinite;
+            z-index: 0;
+        }
+        
+        .popcorn-1 { top: 10%; left: 5%; animation-delay: 0s; }
+        .popcorn-2 { top: 20%; right: 8%; animation-delay: 1s; }
+        .popcorn-3 { top: 60%; left: 3%; animation-delay: 2s; }
+        .popcorn-4 { top: 70%; right: 5%; animation-delay: 0.5s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(8deg); }
+        }
+        
+        /* Carousel Styles */
+        .carousel-container {
+            position: relative;
+            max-width: 1100px;
+            margin: 0 auto 60px;
+            background: 
+                linear-gradient(135deg, #DC143C, #8B0000),
+                radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border: 10px solid #FFFFFF;
+            border-radius: 25px;
+            padding: 50px;
+            box-shadow: 
+                0 0 30px rgba(255, 255, 255, 0.4),
+                inset 0 0 20px rgba(0,0,0,0.3),
+                0 15px 40px rgba(0,0,0,0.6);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .carousel-container::before {
+            content: '🎬';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-size: 4rem;
+            z-index: 1;
+        }
+        
+        .carousel-container::after {
+            content: '🎭';
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            font-size: 4rem;
+            z-index: 1;
+        }
+        
+        .carousel-wrapper {
+            overflow: hidden;
+            border-radius: 20px;
+            border: 4px solid #FF8C00;
+        }
+        
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        
+        .carousel-slide {
+            min-width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            background: 
+                linear-gradient(45deg, #FFFFFF, #F5F5F5),
+                radial-gradient(circle at center, rgba(220, 20, 60, 0.05) 0%, transparent 50%);
+            padding: 60px 40px;
+            border-radius: 16px;
+            position: relative;
+        }
+        
+        .carousel-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #DC143C, transparent);
+        }
+        
+        .carousel-person {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            max-width: 300px;
+            position: relative;
+        }
+        
+        .carousel-image {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 8px solid #DC143C;
+            box-shadow: 
+                0 0 25px rgba(220, 20, 60, 0.6),
+                0 8px 20px rgba(0,0,0,0.8);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .carousel-image::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            right: -15px;
+            bottom: -15px;
+            border: 3px dashed #FF8C00;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .carousel-image:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 0 35px rgba(220, 20, 60, 0.8),
+                0 8px 25px rgba(0,0,0,0.9);
+        }
+        
+        .carousel-image:hover::before {
+            opacity: 1;
+        }
+        
+        .carousel-name {
+            font-family: 'Bungee', cursive;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #DC143C;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: 1px;
+        }
+        
+        .carousel-role {
+            font-size: 1.2rem;
+            color: #FF8C00;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-style: italic;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .carousel-description {
+            font-size: 1rem;
+            color: #8B0000;
+            text-align: center;
+            line-height: 1.5;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+        }
+        
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            gap: 30px;
+        }
+        
+        .carousel-btn {
+            background: linear-gradient(45deg, #FFFFFF, #F5F5F5);
+            color: #DC143C;
+            border: 4px solid #DC143C;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 2.2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 0 20px rgba(255, 255, 255, 0.5),
+                0 5px 15px rgba(0,0,0,0.6);
+        }
+        
+        .carousel-btn:hover {
+            background: linear-gradient(45deg, #DC143C, #8B0000);
+            color: #FFFFFF;
+            transform: scale(1.1);
+            box-shadow: 
+                0 0 30px rgba(220, 20, 60, 0.8),
+                0 8px 20px rgba(0,0,0,0.8);
+        }
+        
+        .carousel-dots {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            border: 3px solid #FF8C00;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dot.active {
+            background: #FFFFFF;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            transform: scale(1.3);
+        }
+        
+        /* Grid Layout */
+        .people-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+            margin-top: 40px;
+        }
+        
+        .person-card {
+            background: 
+                linear-gradient(135deg, #FFFFFF, #F8F8F8),
+                radial-gradient(circle at center, rgba(220, 20, 60, 0.05) 0%, transparent 70%);
+            border: 5px solid #DC143C;
+            border-radius: 20px;
+            padding: 35px;
+            text-align: center;
+            transition: all 0.4s ease;
+            box-shadow: 
+                0 8px 25px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(220, 20, 60, 0.1);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .person-card::before {
+            content: '🍿';
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 3rem;
+            opacity: 0.6;
+        }
+        
+        .person-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(220,20,60,0.1), transparent);
+            transition: left 0.8s ease;
+        }
+        
+        .person-card:hover::after {
+            left: 100%;
+        }
+        
+        .person-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 
+                0 25px 50px rgba(0,0,0,0.6),
+                0 0 35px rgba(220, 20, 60, 0.3),
+                inset 0 1px 0 rgba(220, 20, 60, 0.2);
+            border-color: #8B0000;
+        }
+        
+        .person-card.programmer {
+            border-color: #DC143C;
+            box-shadow: 
+                0 8px 25px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(220, 20, 60, 0.1);
+        }
+        
+        .person-card.qa {
+            border-color: #FF8C00;
+            box-shadow: 
+                0 8px 25px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(255, 140, 0, 0.1);
+        }
+        
+        .person-card.auditor {
+            border-color: #FFD700;
+            box-shadow: 
+                0 8px 25px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(255, 215, 0, 0.1);
+        }
+        
+        .person-card.cm {
+            border-color: #8B0000;
+            box-shadow: 
+                0 8px 25px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(139, 0, 0, 0.1);
+        }
+        
+        .person-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 6px solid;
+            margin: 0 auto 25px;
+            box-shadow: 
+                0 0 25px rgba(220, 20, 60, 0.4),
+                0 8px 20px rgba(0,0,0,0.6);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+        
+        .programmer .person-image { 
+            border-color: #DC143C;
+            box-shadow: 0 0 25px rgba(220, 20, 60, 0.4), 0 8px 20px rgba(0,0,0,0.6);
+        }
+        .qa .person-image { 
+            border-color: #FF8C00;
+            box-shadow: 0 0 25px rgba(255, 140, 0, 0.4), 0 8px 20px rgba(0,0,0,0.6);
+        }
+        .auditor .person-image { 
+            border-color: #FFD700;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.4), 0 8px 20px rgba(0,0,0,0.6);
+        }
+        .cm .person-image { 
+            border-color: #8B0000;
+            box-shadow: 0 0 25px rgba(139, 0, 0, 0.4), 0 8px 20px rgba(0,0,0,0.6);
+        }
+        
+        .person-card:hover .person-image {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 
+                0 0 35px rgba(220, 20, 60, 0.8),
+                0 12px 30px rgba(0,0,0,0.8);
+        }
+        
+        .person-name {
+            font-family: 'Bungee', cursive;
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #DC143C;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            letter-spacing: 1px;
+        }
+        
+        .person-role {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-style: italic;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        .programmer .person-role { color: #DC143C; }
+        .qa .person-role { color: #FF8C00; }
+        .auditor .person-role { color: #FFD700; }
+        .cm .person-role { color: #8B0000; }
+        
+        .person-description {
+            font-size: 1rem;
+            color: #8B0000;
+            line-height: 1.5;
+            opacity: 0;
+            max-height: 0;
+            transition: all 0.4s ease;
+            overflow: hidden;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.3);
+        }
+        
+        .person-card:hover .person-description {
+            opacity: 1;
+            max-height: 120px;
+            margin-top: 15px;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Staggered animation delay */
+        .person-card:nth-child(1) { animation-delay: 0.2s; }
+        .person-card:nth-child(2) { animation-delay: 0.4s; }
+        .person-card:nth-child(3) { animation-delay: 0.6s; }
+        .person-card:nth-child(4) { animation-delay: 0.8s; }
+        .person-card:nth-child(5) { animation-delay: 1.0s; }
+        .person-card:nth-child(6) { animation-delay: 1.2s; }
+        
+        @media (max-width: 768px) {
+            .title {
+                font-size: 3rem;
+                letter-spacing: 1px;
+            }
+            
+            .carousel-container {
+                margin: 0 15px 40px;
+                padding: 30px;
+            }
+            
+            .carousel-slide {
+                flex-direction: column;
+                gap: 40px;
+                padding: 40px 20px;
+            }
+            
+            .carousel-person {
+                max-width: none;
+            }
+            
+            .carousel-image {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .people-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .person-card:hover {
+                transform: translateY(-8px) scale(1.02);
+            }
+            
+            .popcorn-decoration {
+                font-size: 3rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .carousel-slide {
+                gap: 30px;
+                padding: 30px 15px;
+            }
+            
+            .carousel-btn {
+                width: 70px;
+                height: 70px;
+                font-size: 2rem;
+            }
+            
+            .person-card {
+                padding: 25px;
+            }
+            
+            .popcorn-decoration {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="film-grain"></div>
+    
+    <div class="popcorn-decoration popcorn-1">🍿</div>
+    <div class="popcorn-decoration popcorn-2">🍿</div>
+    <div class="popcorn-decoration popcorn-3">🍿</div>
+    <div class="popcorn-decoration popcorn-4">🍿</div>
+    
+    <div class="container">
+        <h1 class="title">HALL OF FAME</h1>
+        <p class="subtitle">~ Starring Our Amazing Team ~</p>
+        
+        <!-- Carousel Section -->
+        <div class="carousel-container">
+            <div class="carousel-wrapper">
+                <div class="carousel-track" id="carouselTrack">
+                    <div class="carousel-slide">
+                        <div class="carousel-person">
+                            <img src="photos/farraz.png" alt="Farraz" class="carousel-image">
+                            <div class="carousel-name">Farraz</div>
+                            <div class="carousel-role">Auditor</div>
+                            <div class="carousel-description">Memastikan kepatuhan dan kualitas audit sesuai standar</div>
+                        </div>
+                        <div class="carousel-person">
+                            <img src="photos/kenzi.png" alt="Kenzi" class="carousel-image">
+                            <div class="carousel-name">Kenzi</div>
+                            <div class="carousel-role">Product QA</div>
+                            <div class="carousel-description">Menguji dan memastikan kualitas produk sebelum rilis</div>
+                        </div>
+                        <div class="carousel-person">
+                            <img src="photos/krisnaputra.png" alt="Krisnaputra" class="carousel-image">
+                            <div class="carousel-name">Krisnaputra</div>
+                            <div class="carousel-role">Programmer</div>
+                            <div class="carousel-description">Mengembangkan dan memelihara kode aplikasi</div>
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-slide">
+                        <div class="carousel-person">
+                            <img src="photos/maming.png" alt="Maming" class="carousel-image">
+                            <div class="carousel-name">Maming</div>
+                            <div class="carousel-role">Product QA</div>
+                            <div class="carousel-description">Menguji dan memastikan kualitas produk sebelum rilis</div>
+                        </div>
+                        <div class="carousel-person">
+                            <img src="photos/rifqi.png" alt="Rifqi" class="carousel-image">
+                            <div class="carousel-name">Rifqi</div>
+                            <div class="carousel-role">Programmer</div>
+                            <div class="carousel-description">Mengembangkan dan memelihara kode aplikasi</div>
+                        </div>
+                        <div class="carousel-person">
+                            <img src="photos/gavin.png" alt="Gavin" class="carousel-image">
+                            <div class="carousel-name">Gavin</div>
+                            <div class="carousel-role">CM</div>
+                            <div class="carousel-description">Mengelola komunitas dan komunikasi dengan pengguna</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="carousel-controls">
+                <button class="carousel-btn" onclick="previousSlide()">‹</button>
+                <div class="carousel-dots" id="carouselDots"></div>
+                <button class="carousel-btn" onclick="nextSlide()">›</button>
+            </div>
+        </div>
+        
+        <!-- Grid Layout -->
+        <div class="people-grid">
+            <div class="person-card auditor">
+                <img src="photos/farraz.png" alt="Farraz" class="person-image">
+                <div class="person-name">Farraz</div>
+                <div class="person-role">Auditor</div>
+                <div class="person-description">Bertanggung jawab memastikan kepatuhan prosedur dan kualitas audit sesuai dengan standar yang ditetapkan perusahaan.</div>
+            </div>
+            
+            <div class="person-card qa">
+                <img src="photos/kenzi.png" alt="Kenzi" class="person-image">
+                <div class="person-name">Kenzi</div>
+                <div class="person-role">Product QA</div>
+                <div class="person-description">Menguji fungsionalitas produk, menemukan bug, dan memastikan kualitas sebelum produk dirilis ke pengguna.</div>
+            </div>
+            
+            <div class="person-card programmer">
+                <img src="photos/krisnaputra.png" alt="Krisnaputra" class="person-image">
+                <div class="person-name">Krisnaputra</div>
+                <div class="person-role">Programmer</div>
+                <div class="person-description">Mengembangkan fitur baru, memperbaiki bug, dan memelihara kode aplikasi dengan teknologi terkini.</div>
+            </div>
+            
+            <div class="person-card qa">
+                <img src="photos/maming.png" alt="Maming" class="person-image">
+                <div class="person-name">Maming</div>
+                <div class="person-role">Product QA</div>
+                <div class="person-description">Melakukan pengujian menyeluruh pada produk untuk memastikan standar kualitas dan pengalaman pengguna yang optimal.</div>
+            </div>
+            
+            <div class="person-card programmer">
+                <img src="photos/rifqi.png" alt="Rifqi" class="person-image">
+                <div class="person-name">Rifqi</div>
+                <div class="person-role">Programmer</div>
+                <div class="person-description">Fokus pada pengembangan backend dan frontend, serta optimasi performa aplikasi untuk pengalaman pengguna terbaik.</div>
+            </div>
+            
+            <div class="person-card cm">
+                <img src="photos/gavin.png" alt="Gavin" class="person-image">
+                <div class="person-name">Gavin</div>
+                <div class="person-role">CM</div>
+                <div class="person-description">Mengelola hubungan dengan komunitas, merespons feedback pengguna, dan membangun engagement yang positif.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 2;
+        
+        function createDots() {
+            const dotsContainer = document.getElementById('carouselDots');
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                if (i === 0) dot.classList.add('active');
+                dot.onclick = () => goToSlide(i);
+                dotsContainer.appendChild(dot);
+            }
+        }
+        
+        function updateCarousel() {
+            const track = document.getElementById('carouselTrack');
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+        
+        function goToSlide(slideIndex) {
+            currentSlide = slideIndex;
+            updateCarousel();
+        }
+        
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        }
+        
+        function previousSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+        
+        function initCarousel() {
+            createDots();
+            updateCarousel();
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            initCarousel();
+            
+            const filmGrain = document.querySelector('.film-grain');
+            setInterval(() => {
+                filmGrain.style.opacity = Math.random() * 0.1 + 0.02;
+            }, 100);
+        });
+        
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.person-card');
+            cards.forEach(card => {
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html> 
