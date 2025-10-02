@@ -59,10 +59,10 @@ CAK3BAB3 – IMPLEMENTASI DAN PENGUJIAN PERANGKAT LUNAK – IF-47-08 – Kelompo
 
 | No | Issue ID | PR ID | Programmer | Configuration Manager | Status  | Catatan                                |
 |----|----------|-------|------------|------------------------|---------|----------------------------------------|
-| 1  | #1       | #1    | Rifqi      | Gavin                  | Sesuai  | Commit rapi dan telah menyelesaikan fitur dari Issue |
-| 2  | #2       | #2    | Krisna     | Gavin                      | Sesuai       | Commit simple dan menyelesaikan issue dengan baik  |
-| 3  | #3       | #3    | Rifqi      | Gavin                  | Sesuai  | Commit terstruktur dengan baik, dan menyelesaikan semua fitur sesuai issue  |
-| 4  | #4       | #4    | Rifqi      | Gavin                      | Sesuai       | Perubahan dilakukan dengan baik dan rapi. Issue terselesaikan |
+| 1  | #1       | #1    | Rifqi      | Gavin                  | Sesuai  | Telah menyelesaikan prototype sesuai dari Issue. Commit yang dilakukan sudah rapi. |
+| 2  | #2       | #2    | Krisna     | Gavin                      | Sesuai       | Mengubah tema warna sesuai dengan issue dan mewujudkan prototype dengan baik.  |
+| 3  | #3       | #3    | Rifqi      | Gavin                  | Sesuai  | Commit terstruktur dengan baik, menyelesaikan request foto profil, dan menyelesaikan semua fitur sesuai issue.  |
+| 4  | #4       | #4    | Rifqi      | Gavin                      | Sesuai       | Finalisasi commit dengan tema yang disesuaikan berdasarkan kebutuhan issue, dengan improvisasi yang tetap sejalan dengan keinginan user. |
 ---
 
 ### Temuan Utama
@@ -72,5 +72,6 @@ CAK3BAB3 – IMPLEMENTASI DAN PENGUJIAN PERANGKAT LUNAK – IF-47-08 – Kelompo
 - **Kualitas commit message: Baik** 
 
 ---
+
 
 
